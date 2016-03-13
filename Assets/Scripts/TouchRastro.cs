@@ -8,6 +8,7 @@ public class TouchRastro : MonoBehaviour {
     public Text debugText;
     public Text pontoMin;
     public Text pontoMax;
+    public int comprimentoMin = 100;
     public static GameManager.TipoFigura tipoFigura = GameManager.TipoFigura.HOR;
 	// Use this for initialization
 	void Start () {
@@ -43,13 +44,13 @@ public class TouchRastro : MonoBehaviour {
         {
             if (CheckRabisco(tipoFigura, positions))
             {
-                debugText.text = "Acertou!" + "Era: " + tipoFigura.ToString();
+                //debugText.text = "Acertou!" + "Era: " + tipoFigura.ToString();
                 DestroyEnemy();              
                 
             }
             else
             {
-                debugText.text = "Errou!";
+                //debugText.text = "Errou!";
             }
                 
         }
@@ -82,7 +83,7 @@ public class TouchRastro : MonoBehaviour {
         float max = positions[positions.Count - 1].y ;
         pontoMin.text = "Min: " + min.ToString();
         pontoMax.text = "Max: " + max.ToString();
-        if (Mathf.Abs(max - min) <= 80)
+        if (Mathf.Abs(max - min) <= 80 && CalcComprimento(positions) > comprimentoMin)
             return true;
         return false;
     }
@@ -93,8 +94,14 @@ public class TouchRastro : MonoBehaviour {
         float max = positions[positions.Count - 1].x;
         pontoMin.text = "Min: " + min.ToString();
         pontoMax.text = "Max: " + max.ToString();
-        if (Mathf.Abs(max - min) <= 60)
+        if (Mathf.Abs(max - min) <= 60 && CalcComprimento(positions) > comprimentoMin)
             return true;
         return false;
+    }
+
+    private int CalcComprimento(List<Vector2> positions)
+    {
+        debugText.text = positions.Count.ToString();
+        return positions.Count;
     }
 }
