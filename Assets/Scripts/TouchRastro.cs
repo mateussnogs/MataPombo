@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class TouchRastro : MonoBehaviour {
     public TrailRenderer tr;
     public List<Vector2> positions;
-    public Text debugText;
     public int comprimentoMin = 5;
     private int indexEnemyDestroy;
     public GameManager.TipoFigura tipoFigura = GameManager.TipoFigura.HOR;
@@ -42,7 +41,6 @@ public class TouchRastro : MonoBehaviour {
         else if(Input.touchCount > 0 && touch.phase == TouchPhase.Ended)
         {
             tipoFigura = CheckRabisco(positions);
-            debugText.text = tipoFigura.ToString();
             DestroyEnemy();
                 
         }
@@ -105,7 +103,6 @@ public class TouchRastro : MonoBehaviour {
 
     private int CalcComprimento(List<Vector2> positions)
     {
-        debugText.text = positions.Count.ToString();
         return positions.Count;
     }
 }
