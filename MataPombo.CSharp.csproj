@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\EnemySpawner.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\MouseTrack.cs" />
+    <Compile Include="Assets\Scripts\ParEnemyBalao.cs" />
     <Compile Include="Assets\Scripts\Retry.cs" />
     <Compile Include="Assets\Scripts\TouchRastro.cs" />
   </ItemGroup>

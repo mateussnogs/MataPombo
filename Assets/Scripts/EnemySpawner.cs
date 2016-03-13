@@ -1,20 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 public class EnemySpawner : MonoBehaviour
 {
 
     [SerializeField]
     Transform[] spawnPoints;
     [SerializeField] GameObject enemy;
-    [SerializeField]
-    float startDelay = 3f;
 
-    [SerializeField]
-    float spawnTime = 3f;
+    public float startDelay = 3f;
+
+    
+    public float spawnTime = 3f;
 
     public GameObject horizontal;
     public GameObject vertical;
+    private float offsetBalao = 1.2f;
+
+    
+
+
 
     public GameManager.TipoFigura[] tipos = { GameManager.TipoFigura.HOR, GameManager.TipoFigura.VER };
     // Use this for initialization
@@ -36,15 +42,18 @@ public class EnemySpawner : MonoBehaviour
         // Create an instance of the enemy prefab at the randomly selected spawn point's position and rotation.
         GameObject Enemy = Instantiate(enemy, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation) as GameObject;
 
-        TouchRastro.tipoFigura = RandTipoFig(); // Seleciona o tipo de figura que tem que acertar o rabisco
-        switch(TouchRastro.tipoFigura)
+        //TouchRastro.tipoFigura = RandTipoFig(); 
+        GameManager.TipoFigura tipoFig = RandTipoFig(); // Seleciona o tipo de figura que tem que acertar o rabisco
+        GameManager.filaInimigos.Add(new ParEnemyBalao(Enemy, tipoFig));
+
+        switch(tipoFig)
         {
             case GameManager.TipoFigura.HOR:
-                GameObject hor = Instantiate(horizontal, spawnPoints[spawnPointIndex].position - new Vector3(0, 1.2f, 0), Quaternion.identity) as GameObject;
+                GameObject hor = Instantiate(horizontal, spawnPoints[spawnPointIndex].position - new Vector3(0, offsetBalao, 0), Quaternion.identity) as GameObject;
                 hor.transform.SetParent(Enemy.transform);
                 break;
             case GameManager.TipoFigura.VER:
-                GameObject ver = Instantiate(vertical, spawnPoints[spawnPointIndex].position - new Vector3(0, 1.2f, 0), Quaternion.identity) as GameObject;
+                GameObject ver = Instantiate(vertical, spawnPoints[spawnPointIndex].position - new Vector3(0, offsetBalao, 0), Quaternion.identity) as GameObject;
                 ver.transform.SetParent(Enemy.transform);
                 break;
 

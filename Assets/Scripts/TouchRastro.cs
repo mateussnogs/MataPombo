@@ -7,7 +7,8 @@ public class TouchRastro : MonoBehaviour {
     public List<Vector2> positions;
     public Text debugText;
     public int comprimentoMin = 5;
-    public static GameManager.TipoFigura tipoFigura = GameManager.TipoFigura.HOR;
+    private int indexEnemyDestroy;
+    public GameManager.TipoFigura tipoFigura = GameManager.TipoFigura.HOR;
 	// Use this for initialization
 	void Start () {
 	}
@@ -40,39 +41,48 @@ public class TouchRastro : MonoBehaviour {
         //Quando solta o dedo testa se o rabisco foi a figura esperada!
         else if(Input.touchCount > 0 && touch.phase == TouchPhase.Ended)
         {
-            if (CheckRabisco(tipoFigura, positions))
-            {
-                //debugText.text = "Acertou!" + "Era: " + tipoFigura.ToString();
-                DestroyEnemy();              
-                
-            }
-            else
-            {
-                //debugText.text = "Errou!";
-            }
+            tipoFigura = CheckRabisco(positions);
+            debugText.text = tipoFigura.ToString();
+            DestroyEnemy();
                 
         }
     }
 
+    
     private void DestroyEnemy()
     {
-        GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
-        Destroy(enemy);
-    }
-    private bool CheckRabisco(GameManager.TipoFigura tipoFig, List<Vector2> positions)
-    {
-        bool acertou = false;
-        switch (tipoFig)
+        GameObject enemyToDestroy = FindEnemyToDestroy();
+        if (enemyToDestroy != null)
         {
-            case GameManager.TipoFigura.HOR:
-                acertou = Ehorizontal(positions);
-                break;
-            case GameManager.TipoFigura.VER:
-                acertou = EVertical(positions);
-                break;
+            Destroy(enemyToDestroy);
+            GameManager.filaInimigos.Remove(GameManager.filaInimigos[indexEnemyDestroy]);
         }
+    }
 
-        return acertou;
+    private GameObject FindEnemyToDestroy()
+    {
+        GameObject enemy = null;
+        for (int i = 0; i < GameManager.filaInimigos.Count; i++)
+        {
+            if (GameManager.filaInimigos[i].tipoFig == tipoFigura)
+            {
+                enemy = GameManager.filaInimigos[i].enemy;
+                indexEnemyDestroy = i;                
+                break;
+            }
+        }
+        return enemy;
+    }
+
+    private GameManager.TipoFigura CheckRabisco(List<Vector2> positions)
+    {
+
+        if (Ehorizontal(positions))
+            return GameManager.TipoFigura.HOR;
+        else if (EVertical(positions))
+            return GameManager.TipoFigura.VER;
+        else
+            return GameManager.TipoFigura.V;
     }
 
     private bool Ehorizontal(List<Vector2> positions)
