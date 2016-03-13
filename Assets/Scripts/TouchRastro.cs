@@ -43,7 +43,8 @@ public class TouchRastro : MonoBehaviour {
         {
             if (CheckRabisco(tipoFigura, positions))
             {
-                debugText.text = "Acertou!" + "Era: " + tipoFigura.ToString();              
+                debugText.text = "Acertou!" + "Era: " + tipoFigura.ToString();
+                DestroyEnemy();              
                 
             }
             else
@@ -54,6 +55,11 @@ public class TouchRastro : MonoBehaviour {
         }
     }
 
+    private void DestroyEnemy()
+    {
+        GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
+        Destroy(enemy);
+    }
     private bool CheckRabisco(GameManager.TipoFigura tipoFig, List<Vector2> positions)
     {
         bool acertou = false;
