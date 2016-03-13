@@ -12,21 +12,6 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-        if (Time.time > proxFig)
-        {
-            proxFig = Time.time + tempoEspera;
-            TouchRastro.tipoFigura = tipoFig;
-            if (tipoFig == TipoFigura.HOR)
-            {
-                tipoFig = TipoFigura.VER;
-                textoFiguraDaVez.text = "Vertical";
-            }
-            else {
-                tipoFig = TipoFigura.VER;
-                textoFiguraDaVez.text = "Horizontal";
-            }
-        }
-	
+	void Update () {        
 	}
 }

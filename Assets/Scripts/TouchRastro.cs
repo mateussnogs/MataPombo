@@ -11,7 +11,6 @@ public class TouchRastro : MonoBehaviour {
     public static GameManager.TipoFigura tipoFigura = GameManager.TipoFigura.HOR;
 	// Use this for initialization
 	void Start () {
-        //GetComponent<Rigidbody2D>().velocity = new Vector2(1, 0);
 	}
 
     private float speed = 0.03F;
@@ -44,17 +43,12 @@ public class TouchRastro : MonoBehaviour {
         {
             if (CheckRabisco(tipoFigura, positions))
             {
-                debugText.text = "Acertou!";
-                switch(tipoFigura)
-                {
-                    case GameManager.TipoFigura.HOR:
-                        //tipoFigura = GameManager.TipoFigura.VER;
-                        break;
-                    case GameManager.TipoFigura.VER:
-                        //tipoFigura = GameManager.TipoFigura.HOR;
-                        break;
-                }                
+                debugText.text = "Acertou!" + "Era: " + tipoFigura.ToString();              
                 
+            }
+            else
+            {
+                debugText.text = "Errou!";
             }
                 
         }
@@ -80,8 +74,8 @@ public class TouchRastro : MonoBehaviour {
     {
         float min = positions[0].y;
         float max = positions[positions.Count - 1].y ;
-        pontoMin.text = min.ToString();
-        pontoMax.text = max.ToString();
+        pontoMin.text = "Min: " + min.ToString();
+        pontoMax.text = "Max: " + max.ToString();
         if (Mathf.Abs(max - min) <= 80)
             return true;
         return false;
@@ -91,8 +85,8 @@ public class TouchRastro : MonoBehaviour {
     {
         float min = positions[0].x;
         float max = positions[positions.Count - 1].x;
-        pontoMin.text = min.ToString();
-        pontoMax.text = max.ToString();
+        pontoMin.text = "Min: " + min.ToString();
+        pontoMax.text = "Max: " + max.ToString();
         if (Mathf.Abs(max - min) <= 60)
             return true;
         return false;
