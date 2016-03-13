@@ -6,9 +6,7 @@ public class TouchRastro : MonoBehaviour {
     public TrailRenderer tr;
     public List<Vector2> positions;
     public Text debugText;
-    public Text pontoMin;
-    public Text pontoMax;
-    public int comprimentoMin = 100;
+    public int comprimentoMin = 5;
     public static GameManager.TipoFigura tipoFigura = GameManager.TipoFigura.HOR;
 	// Use this for initialization
 	void Start () {
@@ -81,8 +79,6 @@ public class TouchRastro : MonoBehaviour {
     {
         float min = positions[0].y;
         float max = positions[positions.Count - 1].y ;
-        pontoMin.text = "Min: " + min.ToString();
-        pontoMax.text = "Max: " + max.ToString();
         if (Mathf.Abs(max - min) <= 80 && CalcComprimento(positions) > comprimentoMin)
             return true;
         return false;
@@ -92,8 +88,6 @@ public class TouchRastro : MonoBehaviour {
     {
         float min = positions[0].x;
         float max = positions[positions.Count - 1].x;
-        pontoMin.text = "Min: " + min.ToString();
-        pontoMax.text = "Max: " + max.ToString();
         if (Mathf.Abs(max - min) <= 60 && CalcComprimento(positions) > comprimentoMin)
             return true;
         return false;
