@@ -7,11 +7,13 @@ public class MouseTrack : MonoBehaviour
 {
     public TrailRenderer tr;
     public List<Vector2> positions;
-    public Text debugText;
+    private int indexEnemyDestroy;
     public static GameManager.TipoFigura tipoFigura = GameManager.TipoFigura.HOR;
     private float speed = 0.03F;
     public int comprimentoMin = 5;
     Vector3 mousePosition;
+    [SerializeField]
+    Score score;
 
     // Use this for initialization
     void Start ()
@@ -47,40 +49,48 @@ public class MouseTrack : MonoBehaviour
         //Quando solta o dedo testa se o rabisco foi a figura esperada!
         else if (mouseReleased)
         {
-            if (CheckRabisco(tipoFigura, positions))
-            {
-                //debugText.text = "Acertou!" + "Era: " + tipoFigura.ToString();
-                DestroyEnemy();
-
-            }
-            else
-            {
-                //debugText.text = "Errou!";
-            }
+            tipoFigura = CheckRabisco(positions);
+            DestroyEnemy();
 
         }
     }
 
-    private bool CheckRabisco(GameManager.TipoFigura tipoFig, List<Vector2> positions)
-    {
-        bool acertou = false;
-        switch (tipoFig)
-        {
-            case GameManager.TipoFigura.HOR:
-                acertou = Ehorizontal(positions);
-                break;
-            case GameManager.TipoFigura.VER:
-                acertou = EVertical(positions);
-                break;
-        }
-
-        return acertou;
-    }
 
     private void DestroyEnemy()
     {
-        GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
-        Destroy(enemy);
+        GameObject enemyToDestroy = FindEnemyToDestroy();
+        if (enemyToDestroy != null)
+        {
+            score.updateScore(10);
+            Destroy(enemyToDestroy);
+            GameManager.filaInimigos.Remove(GameManager.filaInimigos[indexEnemyDestroy]);
+        }
+    }
+
+    private GameObject FindEnemyToDestroy()
+    {
+        GameObject enemy = null;
+        for (int i = 0; i < GameManager.filaInimigos.Count; i++)
+        {
+            if (GameManager.filaInimigos[i].tipoFig == tipoFigura)
+            {
+                enemy = GameManager.filaInimigos[i].enemy;
+                indexEnemyDestroy = i;
+                break;
+            }
+        }
+        return enemy;
+    }
+
+    private GameManager.TipoFigura CheckRabisco(List<Vector2> positions)
+    {
+
+        if (Ehorizontal(positions))
+            return GameManager.TipoFigura.HOR;
+        else if (EVertical(positions))
+            return GameManager.TipoFigura.VER;
+        else
+            return GameManager.TipoFigura.V;
     }
 
     private bool Ehorizontal(List<Vector2> positions)
@@ -107,7 +117,6 @@ public class MouseTrack : MonoBehaviour
 
     private int CalcComprimento(List<Vector2> positions)
     {
-        debugText.text = positions.Count.ToString();
         return positions.Count;
     }
 }
