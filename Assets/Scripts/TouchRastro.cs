@@ -20,7 +20,6 @@ public class TouchRastro : MonoBehaviour {
         Touch touch = Input.GetTouch(0);
         if (Input.touchCount > 0 && touch.phase == TouchPhase.Began)
         {
-            debugText.text = "Comecou";
             Vector3 touchPosition = touch.position;
             touchPosition.z = 5;
             transform.position = Camera.main.ScreenToWorldPoint(touchPosition);
@@ -39,19 +38,20 @@ public class TouchRastro : MonoBehaviour {
             // Move object across XY plane
             transform.Translate(touchDeltaPosition.x * speed, touchDeltaPosition.y * speed, 0);
         }
+
+        //Quando solta o dedo testa se o rabisco foi a figura esperada!
         else if(Input.touchCount > 0 && touch.phase == TouchPhase.Ended)
         {
             if (CheckRabisco(tipoFigura, positions))
             {
+                debugText.text = "Acertou!";
                 switch(tipoFigura)
                 {
                     case GameManager.TipoFigura.HOR:
-                        debugText.text = "Horizontal";
-                        tipoFigura = GameManager.TipoFigura.VER;
+                        //tipoFigura = GameManager.TipoFigura.VER;
                         break;
                     case GameManager.TipoFigura.VER:
-                        debugText.text = "Vertical";
-                        tipoFigura = GameManager.TipoFigura.VER;
+                        //tipoFigura = GameManager.TipoFigura.HOR;
                         break;
                 }                
                 
@@ -82,7 +82,7 @@ public class TouchRastro : MonoBehaviour {
         float max = positions[positions.Count - 1].y ;
         pontoMin.text = min.ToString();
         pontoMax.text = max.ToString();
-        if (max - min <= 80)
+        if (Mathf.Abs(max - min) <= 80)
             return true;
         return false;
     }
@@ -93,7 +93,7 @@ public class TouchRastro : MonoBehaviour {
         float max = positions[positions.Count - 1].x;
         pontoMin.text = min.ToString();
         pontoMax.text = max.ToString();
-        if (max - min <= 60)
+        if (Mathf.Abs(max - min) <= 60)
             return true;
         return false;
     }
