@@ -8,10 +8,9 @@ public class MouseTrack : MonoBehaviour
     public TrailRenderer tr;
     public List<Vector2> positions;
     public Text debugText;
-    public Text pontoMin;
-    public Text pontoMax;
     public static GameManager.TipoFigura tipoFigura = GameManager.TipoFigura.HOR;
     private float speed = 0.03F;
+    public int comprimentoMin = 5;
     Vector3 mousePosition;
 
     // Use this for initialization
@@ -50,12 +49,13 @@ public class MouseTrack : MonoBehaviour
         {
             if (CheckRabisco(tipoFigura, positions))
             {
-                debugText.text = "Acertou!" + "Era: " + tipoFigura.ToString();
+                //debugText.text = "Acertou!" + "Era: " + tipoFigura.ToString();
+                DestroyEnemy();
 
             }
             else
             {
-                debugText.text = "Errou!";
+                //debugText.text = "Errou!";
             }
 
         }
@@ -77,14 +77,18 @@ public class MouseTrack : MonoBehaviour
         return acertou;
     }
 
+    private void DestroyEnemy()
+    {
+        GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
+        Destroy(enemy);
+    }
+
     private bool Ehorizontal(List<Vector2> positions)
     {
         float minX = positions[0].x;
         float maxX = positions[positions.Count - 1].x;
         float minY = positions[0].y;
         float maxY = positions[positions.Count - 1].y;
-        pontoMin.text = "Min: " + minY.ToString();
-        pontoMax.text = "Max: " + maxY.ToString();
         if (Mathf.Abs(maxY - minY) <= Mathf.Abs(maxX - minX))
             return true;
         return false;
@@ -96,10 +100,14 @@ public class MouseTrack : MonoBehaviour
         float maxX = positions[positions.Count - 1].x;
         float minY = positions[0].y;
         float maxY = positions[positions.Count - 1].y;
-        pontoMin.text = "Min: " + minY.ToString();
-        pontoMax.text = "Max: " + maxY.ToString();
         if (Mathf.Abs(maxY - minY) >= Mathf.Abs(maxX - minX))
             return true;
         return false;
+    }
+
+    private int CalcComprimento(List<Vector2> positions)
+    {
+        debugText.text = positions.Count.ToString();
+        return positions.Count;
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class Enemy : MonoBehaviour
+public class Retry : MonoBehaviour
 {
 
 	// Use this for initialization
@@ -14,14 +14,11 @@ public class Enemy : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+	
+	}
 
-    }
-
-    void OnCollisionEnter2D(Collision2D col)
+    public void TryAgain()
     {
-        if (col.gameObject.tag == "Scenario")
-        {
-            SceneManager.LoadScene("GameOver");
-        }
+        SceneManager.LoadScene("scene01");
     }
 }
