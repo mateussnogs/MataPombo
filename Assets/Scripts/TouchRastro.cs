@@ -8,6 +8,8 @@ public class TouchRastro : MonoBehaviour {
     public int comprimentoMin = 5;
     private int indexEnemyDestroy;
     public GameManager.TipoFigura tipoFigura = GameManager.TipoFigura.HOR;
+    [SerializeField]
+    Score score;
 	// Use this for initialization
 	void Start () {
 	}
@@ -52,6 +54,7 @@ public class TouchRastro : MonoBehaviour {
         GameObject enemyToDestroy = FindEnemyToDestroy();
         if (enemyToDestroy != null)
         {
+            score.updateScore(10);
             Destroy(enemyToDestroy);
             GameManager.filaInimigos.Remove(GameManager.filaInimigos[indexEnemyDestroy]);
         }

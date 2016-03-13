@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Scenario")
+        if (col.gameObject.tag == "End")
         {
             SceneManager.LoadScene("GameOver");
         }
