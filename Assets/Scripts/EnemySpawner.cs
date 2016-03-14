@@ -16,7 +16,7 @@ public class EnemySpawner : MonoBehaviour
 
     public GameObject horizontal;
     public GameObject vertical;
-    private float offsetBalao = 1.2f;
+    private float offsetBalao = 0.9f;
 
     
 
